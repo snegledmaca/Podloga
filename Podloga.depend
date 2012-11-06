@@ -1,0 +1,51 @@
+# depslib dependency file v1.0
+1352233595 source:/home/bozidar/Projects/CodeblocksProjects/Podloga/main.cpp
+	<FTGL/ftgl-2.1.3~rc5/src/FTGL/ftgl.h>
+	<SOIL/Simple OpenGL Image Library/src/SOIL.h>
+	"windowmanager.h"
+
+1212672919 /home/bozidar/Projects/CodeblocksProjects/FTGL/ftgl-2.1.3~rc5/src/FTGL/ftgl.h
+	<ft2build.h>
+	<FTGL/FTPoint.h>
+	<FTGL/FTBBox.h>
+	<FTGL/FTBuffer.h>
+	<FTGL/FTGlyph.h>
+	<FTGL/FTBitmapGlyph.h>
+	<FTGL/FTBufferGlyph.h>
+	<FTGL/FTExtrdGlyph.h>
+	<FTGL/FTOutlineGlyph.h>
+	<FTGL/FTPixmapGlyph.h>
+	<FTGL/FTPolyGlyph.h>
+	<FTGL/FTTextureGlyph.h>
+	<FTGL/FTFont.h>
+	<FTGL/FTGLBitmapFont.h>
+	<FTGL/FTBufferFont.h>
+	<FTGL/FTGLExtrdFont.h>
+	<FTGL/FTGLOutlineFont.h>
+	<FTGL/FTGLPixmapFont.h>
+	<FTGL/FTGLPolygonFont.h>
+	<FTGL/FTGLTextureFont.h>
+	<FTGL/FTLayout.h>
+	<FTGL/FTSimpleLayout.h>
+
+1351340665 /home/bozidar/Projects/CodeblocksProjects/freetype/freetype-2.4.10/include/ft2build.h
+	<freetype/config/ftheader.h>
+
+1339652158 /home/bozidar/Projects/CodeblocksProjects/freetype/freetype-2.4.10/include/freetype/config/ftheader.h
+
+1215447208 /home/bozidar/Projects/CodeblocksProjects/SOIL/Simple OpenGL Image Library/src/SOIL.h
+
+1352233482 /home/bozidar/Projects/CodeblocksProjects/Podloga/windowmanager.h
+	<GLFW/glfw-2.7.6/include/GL/glfw.h>
+	"container.h"
+
+1349519463 /home/bozidar/Projects/CodeblocksProjects/GLFW/glfw-2.7.6/include/GL/glfw.h
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1352233561 /home/bozidar/Projects/CodeblocksProjects/Podloga/container.h
+
