@@ -390,3 +390,304 @@
 //                this->remove_section( &this->css, "//", "\n" );
 //            }
 
+//========================================================================
+// HierarchyManager - implementations
+//========================================================================
+
+/*
+
+
+    class HierarchyManager: public FromPool {
+
+    //====================================================================
+
+        public:
+
+            enum Type { DATA, CSS, XML };
+
+        private:
+
+            const static char* files[3];
+            char* data[3];
+
+    //====================================================================
+
+        private:
+
+            DataPoint* data_points;
+            ClassPoint* class_points;
+            ElementPoint* element_points;
+
+    //====================================================================
+
+        public:
+
+            HierarchyManager( const char* path ) {
+                this->read_in_file( path, DATA );
+                this->read_in_file( path, CSS );
+                this->read_in_file( path, XML );
+
+                this->create_points();
+
+                this->read_in_data_points();
+                this->read_in_class_points();
+                this->read_in_element_points();
+            }
+
+            ~HierarchyManager() {}
+
+    //====================================================================
+
+        private:
+
+            virtual void read_in_file( const char* path, Type type ) {
+                const char* name = this->files[type];
+
+                GLuint path_len = 0;
+                GLuint name_len = 0;
+                while( path[path_len] ) path_len++;
+                while( name[name_len] ) name_len++;
+
+                char* file = this->pool.allocate<char>(
+                    path_len + name_len + 1 );
+
+                GLuint pos = 0;
+                path_len = 0;
+                name_len = 0;
+                while( path[path_len] ) file[pos++] = path[path_len++];
+                while( name[name_len] ) file[pos++] = name[name_len++];
+                file[pos] = 0;
+
+                FILE* data_file = fopen( file, "rb" );
+
+                fseek( data_file, 0, SEEK_END );
+                GLuint size = ftell( data_file );
+                fseek( data_file, 0, SEEK_SET );
+
+                char* data = this->pool.allocate<char>( ( size + 1 ) );
+                fread( data, sizeof(char), size, data_file );
+                data[size] = 0;
+
+                fclose( data_file );
+
+                this->data[type] = data;
+            }
+
+    //====================================================================
+
+        private:
+
+            virtual GLuint read_number( char* start, char* end ) {
+                GLuint value = 0;
+                GLuint increment = 1;
+
+                for ( char* i = end - 1; i != start - 1 ; i-- ) {
+                    value = value + ( i[0] - '0' ) * increment;
+                    increment = increment * 10;
+                }
+
+                return value;
+            }
+
+            virtual GLuint read_bracket_number( char** data ) {
+                while( '[' != **data ) *data = *data + 1;
+                char* start = *data + 1;
+                while( ']' != **data ) *data = *data + 1;
+                char* end = *data;
+
+                *data = *data + 1;
+
+                if( '-' == *start ) return -1;
+                if( ']' == *start ) return -1;
+
+                return this->read_number( start, end );
+            }
+
+    //====================================================================
+
+        private:
+
+            virtual void create_points( void ) {
+                char* data = this->data[DATA];
+                char* css = this->data[CSS];
+                char* xml = this->data[XML];
+
+                GLuint size = 0;
+
+                size = this->read_bracket_number( &data );
+                this->data_points = this->pool.allocate
+                    <DataPoint>( size );
+
+                size = this->read_bracket_number( &css );
+                this->class_points = this->pool.allocate
+                    <ClassPoint>( size );
+
+                size = this->read_bracket_number( &xml );
+                this->element_points = this->pool.allocate
+                    <ElementPoint>( size );
+            }
+
+    //====================================================================
+
+        private:
+
+            virtual GLuint read_in_data_points( void ) {
+                char* data = this->data[DATA];
+
+                GLuint index = 0;
+                while( *data ) {
+                    if( '\n' == *data && *( data + 1 ) ) {
+                        data = data + 3;
+                        this->data_points[index].name = data;
+                    }
+
+                    if( ':' == *data || '=' == *data ) {
+                        *data = 0;
+
+                        data = data + 1;
+                        if( '"' == *data ) {
+                            data = data + 1;
+                            this->data_points[index].value = data;
+                            while( '"' != *data ) data++;
+                        }
+                        else {
+                            this->data_points[index].value = data;
+                        }
+
+                    }
+
+                    if( '"' == *data ) {
+                        *data = 0;
+                        data = data + 1;
+                        if( '[' == *data )
+                            this->data_points[index].class_point =
+                            &this->class_points[this->
+                                read_bracket_number( &data )];
+                    }
+
+                    if( ';' == *data ) {
+                        *data = 0;
+                        index++;
+                    }
+
+                    data++;
+                }
+
+                return 1;
+            }
+
+            virtual GLuint read_in_class_points( void ) {
+                char* data = this->data[CSS];
+
+                GLuint index = 0;
+                while( *data ) {
+                    if( '\n' == *data && *( data + 1 ) ) {
+                        data = data + 3;
+                        this->class_points[index].name = data;
+                    }
+
+                    if( ':' == *data ) {
+                        *data = 0;
+                        data = data + 1;
+
+                        GLuint size = this->read_bracket_number( &data );
+                        this->class_points[index].data =
+                            this->pool.allocate<DataPoint*>( size );
+
+                        for ( GLuint i = 0; i < size; i++ ) {
+                            GLuint ref = this->read_bracket_number(
+                                &data );
+                            this->class_points[index].data[i] =
+                                &this->data_points[ref];
+                        }
+                    }
+
+                    if( ';' == *data ) {
+                        *data = 0;
+                        index++;
+                    }
+
+                    data++;
+                }
+
+                return 1;
+            }
+
+            virtual GLuint read_in_element_points( void ) {
+                char* data = this->data[XML];
+
+                GLuint index = 0;
+                while( *data ) {
+                    if( '\n' == *data && *( data + 1 ) ) {
+                        data = data + 3;
+
+                        GLuint size = this->read_bracket_number( &data );
+                        this->element_points[index].data =
+                            this->pool.allocate<DataPoint*>( size );
+
+                        for ( GLuint i = 0; i < size; i++ ) {
+                            GLuint ref = this->read_bracket_number(
+                                &data );
+                            this->element_points[index].data[i] =
+                                &this->data_points[ref];
+                        }
+                    }
+
+                    if( ',' == *data ) {
+                        *data = 0;
+                        data = data + 1;
+
+                        GLuint ref;
+
+                        ref = this->read_bracket_number( &data );
+                        if( (GLuint) -1 != ref )
+                            this->element_points[index].previous =
+                                &this->element_points[ref];
+                        else
+                            this->element_points[index].previous = 0;
+
+                        ref = this->read_bracket_number( &data );
+                        if( (GLuint) -1 != ref )
+                            this->element_points[index].parent =
+                                &this->element_points[ref];
+                        else
+                            this->element_points[index].parent = 0;
+
+                        ref = this->read_bracket_number( &data );
+                        if( (GLuint) -1 != ref )
+                            this->element_points[index].next =
+                                &this->element_points[ref];
+                        else
+                            this->element_points[index].next = 0;
+
+                        ref = this->read_bracket_number( &data );
+                        if( (GLuint) -1 != ref )
+                            this->element_points[index].first_child =
+                                &this->element_points[ref];
+                        else
+                            this->element_points[index].first_child = 0;
+                    }
+
+                    if( ';' == *data ) {
+                        *data = 0;
+                        index++;
+                    }
+
+                    data++;
+                }
+
+                return 1;
+            }
+
+    //====================================================================
+
+    };
+
+    const char* HierarchyManager::files[3] = {
+        "datapoints.txt",
+        "cssclasses.txt",
+        "xmlelements.txt"
+    };
+
+
+//*/

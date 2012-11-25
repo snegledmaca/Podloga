@@ -2,8 +2,10 @@
 #include <SOIL/Simple OpenGL Image Library/src/SOIL.h>
 
 #include "windowmanager.h"
+#include "hieararchymanager.h"
 
     WindowManager winManager( "Formule - BRUM, BRUM, BRUM" );
+    HierarchyManager* hierManager = new HierarchyManager( "structure/" );
 
     GLuint SOIL_loadTexture( const char* texturePath ) {
         GLuint tex_id = SOIL_load_OGL_texture
@@ -105,6 +107,8 @@ int main()
     winManager.constant_loop();
 
     delete font;
+
+    delete hierManager;
 
     return 0;
 }

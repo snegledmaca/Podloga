@@ -1,8 +1,9 @@
 # depslib dependency file v1.0
-1352233595 source:/home/bozidar/Projects/CodeblocksProjects/Podloga/main.cpp
+1353151321 source:/home/bozidar/Projects/CodeblocksProjects/Podloga/main.cpp
 	<FTGL/ftgl-2.1.3~rc5/src/FTGL/ftgl.h>
 	<SOIL/Simple OpenGL Image Library/src/SOIL.h>
 	"windowmanager.h"
+	"hieararchymanager.h"
 
 1212672919 /home/bozidar/Projects/CodeblocksProjects/FTGL/ftgl-2.1.3~rc5/src/FTGL/ftgl.h
 	<ft2build.h>
@@ -47,5 +48,18 @@
 	<GL/gl.h>
 	<GL/glu.h>
 
-1352233561 /home/bozidar/Projects/CodeblocksProjects/Podloga/container.h
+1352674479 /home/bozidar/Projects/CodeblocksProjects/Podloga/container.h
+
+1353185059 /home/bozidar/Projects/CodeblocksProjects/Podloga/hieararchymanager.h
+	"elements.h"
+
+1353185389 /home/bozidar/Projects/CodeblocksProjects/Podloga/elements.h
+	"memorypool.h"
+	"container.h"
+
+1352491333 /home/bozidar/Projects/CodeblocksProjects/Trees/libtree.h
+	<stdint.h>
+	<stddef.h>
+
+1353164410 /home/bozidar/Projects/CodeblocksProjects/Podloga/memorypool.h
 

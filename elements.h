@@ -5,14 +5,16 @@
 // Elements - dependancies
 //======================================================================
 
+    #include "memorypool.h"
     #include "container.h"
 
 //======================================================================
 // Elements - definitions
 //======================================================================
 
-    struct Attribute;
-    struct Node;
+    struct DataPoint;
+    struct ClassPoint;
+    struct ElementPoint;
 
     class Interactive;
     class Part;
@@ -22,6 +24,25 @@
 // Elements - implementations
 //======================================================================
 
+    struct DataPoint: public FromPool {
+        char* name;
+        char* value;
+        ClassPoint* class_point;
+    };
+
+    struct ClassPoint: public FromPool {
+        char* name;
+        DataPoint** data;
+    };
+
+    struct ElementPoint: public FromPool {
+        DataPoint** data;
+
+        ElementPoint* previous;
+        ElementPoint* parent;
+        ElementPoint* next;
+        ElementPoint* first_child;
+    };
 
 //=====================================================================
 

@@ -18,18 +18,19 @@
     template <typename T>
     class Container {
 
-    //===================================================================
+    //====================================================================
 
         protected:  T* container;
         protected:  GLuint cont_size;
         public:     const static GLuint arrayStep = 100;
 
-    //===================================================================
+    //====================================================================
 
         public:
 
             Container() {
-                this->container = (T*) malloc( sizeof(T) * this->arrayStep );
+                this->container = (T*) malloc(
+                    sizeof(T) * this->arrayStep );
                 this->cont_size = 0;
             }
 
@@ -37,16 +38,19 @@
                 free( this->container );
             }
 
-    //===================================================================
+    //====================================================================
 
             virtual void add( T item ) {
                 this->container[ this->cont_size ] = item;
                 this->cont_size = this->cont_size + 1;
 
                 if( this->cont_size % this->arrayStep == 0 ) {
-                    GLuint num_steps = 1 + this->cont_size / this->arrayStep;
+                    GLuint num_steps = 1 +
+                        this->cont_size / this->arrayStep;
 
-                    this->container = (T*) realloc( this->container, sizeof(T) * this->arrayStep * num_steps );
+                    this->container = (T*) realloc(
+                        this->container, sizeof(T) *
+                        this->arrayStep * num_steps );
                 }
             }
 
@@ -54,7 +58,8 @@
                 GLuint removed = 0;
 
                 for ( GLuint i = 0; i < this->cont_size; i++ ) {
-                    if( removed ) this->container[i - 1] = this->container[i];
+                    if( removed ) this->container[i - 1] =
+                        this->container[i];
                     if( item == this->container[i] ) removed = 1;
                 }
 
@@ -62,14 +67,17 @@
                     this->cont_size = this->cont_size - 1;
 
                     if( this->cont_size % this->arrayStep == 0 ) {
-                        GLuint num_steps = this->cont_size / this->arrayStep;
+                        GLuint num_steps = this->cont_size /
+                            this->arrayStep;
 
-                        this->container = (T*) realloc( this->container, sizeof(T) * this->arrayStep * num_steps );
+                        this->container = (T*) realloc(
+                            this->container, sizeof(T) *
+                            this->arrayStep * num_steps );
                     }
                 }
             }
 
-    //===================================================================
+    //====================================================================
 
             virtual T& operator[]( GLuint index ) {
                 return this->container[index];
@@ -79,7 +87,7 @@
                 return this->cont_size;
             }
 
-    //===================================================================
+    //====================================================================
 
     };
 

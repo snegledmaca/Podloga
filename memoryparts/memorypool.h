@@ -5,19 +5,21 @@
 // MemoryPool - dependancies
 //========================================================================
 
+    #include <new>
+
 //========================================================================
 // MemoryPool - definitions
 //========================================================================
 
-    #define MEGABYTE ( 1024 * 1024 )
+    #define KILOBYTE ( 1024 )
+    #define MEGABYTE ( 1024 * KILOBYTE )
     #define POOLSIZE ( 1 * MEGABYTE )
-    #define ALIGNMENT sizeof(void *)
+    #define ALIGNMENT sizeof(char)
     #define SIZE long unsigned int
 
 //========================================================================
 
     class MemoryPool;
-    class FromPool;
 
 //========================================================================
 // MemoryPool - implementations
@@ -35,14 +37,19 @@
 
         private:
 
-            char  memory[POOLSIZE]; // Static raw memory
+            char* memory; // Raw memory
+            SIZE size;  // Size of pool
+
             char* memory_position[2]; // First free byte
 
     //===================================================================
 
         public:
 
-            MemoryPool() {
+            MemoryPool( SIZE size = POOLSIZE ) {
+                this->size = size;
+                this->memory = (char*) malloc( size );
+
                 this->init();
             }
 
@@ -54,7 +61,7 @@
 
         private:
 
-            char* align( char* position, Side side ) {
+            char* align( char* position, Side side = FRONT ) {
                 SIZE mask = ALIGNMENT - 1;
                 SIZE relevant = (SIZE) position & mask;
 
@@ -70,9 +77,7 @@
 
         public:
 
-            template<typename T> T* allocate( SIZE num_bytes, Side side = FRONT ) {
-                num_bytes = num_bytes * sizeof(T);
-
+            void* allocate( SIZE num_bytes, Side side = FRONT ) {
                 char* bytes_start = align( memory_position[side], side );
 
                 if ( FRONT == side &&
@@ -89,7 +94,7 @@
                 if( BACK == side )
                     memory_position[BACK] = bytes_start - num_bytes;
 
-                return (T*) bytes_start;
+                return bytes_start;
             }
 
     //===================================================================
@@ -97,10 +102,10 @@
         private:
 
             void init() {
-                memory_position[FRONT] = align( memory, FRONT );
-                memory_position[BACK] = align( memory - 1, FRONT ) + sizeof( memory );
+                memory_position[FRONT] = align( memory );
+                memory_position[BACK] = align( memory - 1 ) + this->size;
 
-                for ( GLuint i = 0; i < POOLSIZE; i++ ) { memory[i] = 0; }
+                for ( GLuint i = 0; i < this->size; i++ ) memory[i] = 0;
             }
 
             void clear() {
@@ -108,39 +113,39 @@
             }
 
     //===================================================================
-
-    };
-
-    class FromPool {
-
-    	protected:
-
-            static MemoryPool* pool;
-            static MemoryPool* simplePool;
-
-    	//==============================================================
-
-    	public:
-
-    		FromPool( void ) {}
-    		~FromPool( void ) {}
-
-    	//==============================================================
+    // Backup
+    //===================================================================
 
         public:
 
-            void* operator new ( SIZE num_bytes ) {
-                return FromPool::pool->allocate<char>( num_bytes );
+            void* operator new ( SIZE size ) {
+                void *pointer = malloc( size );
+
+                if ( pointer == 0 ) throw std::bad_alloc(); // ANSI/ISO compliant behavior
+
+                return pointer;
             }
 
-            void operator delete( void * ) {}
+            void operator delete( void *pointer ) {
+                free( pointer );
+            }
+        };
 
-    	//==============================================================
+//========================================================================
 
-    };
+    void* operator new[] ( SIZE size ) {
+        static MemoryPool* pool = new MemoryPool( 1 * MEGABYTE );
 
-    MemoryPool* FromPool::pool = new MemoryPool();
-    MemoryPool* FromPool::simplePool = new MemoryPool();
+        void *pointer = pool->allocate( size );
+
+        if ( pointer == 0 ) throw std::bad_alloc(); // ANSI/ISO compliant behavior
+
+        return pointer;
+    }
+
+//========================================================================
+
+    void operator delete[] ( void *pointer ) { }
 
 //========================================================================
 

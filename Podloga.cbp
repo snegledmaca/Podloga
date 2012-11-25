@@ -14,6 +14,22 @@
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
+				<Linker>
+					<Add library="glfw" />
+					<Add library="ftgl" />
+					<Add library="freetype" />
+					<Add library="soil" />
+					<Add library="GL" />
+					<Add library="GLU" />
+					<Add library="pthread" />
+					<Add library="Xxf86vm" />
+					<Add library="trees" />
+					<Add directory="../GLFW/lib/Debug Linux64" />
+					<Add directory="../FTGL/lib/Debug Linux64" />
+					<Add directory="../freetype/lib/Debug Linux64" />
+					<Add directory="../SOIL/lib/Debug Linux64" />
+					<Add directory="../Trees/lib/Debug Linux64" />
+				</Linker>
 			</Target>
 			<Target title="Release Linux64">
 				<Option output="bin/Release Linux64/Podloga" prefix_auto="1" extension_auto="1" />
@@ -25,12 +41,39 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="glfw" />
+					<Add library="ftgl" />
+					<Add library="freetype" />
+					<Add library="soil" />
+					<Add library="GL" />
+					<Add library="GLU" />
+					<Add library="pthread" />
+					<Add library="Xxf86vm" />
+					<Add library="trees" />
+					<Add directory="../GLFW/lib/Release Linux64" />
+					<Add directory="../FTGL/lib/Release Linux64" />
+					<Add directory="../freetype/lib/Release Linux64" />
+					<Add directory="../SOIL/lib/Release Linux64" />
+					<Add directory="../Trees/lib/Release Linux64" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="../freetype/freetype-2.4.10/include" />
+			<Add directory="../../CodeblocksProjects" />
 		</Compiler>
+		<Unit filename="container.h" />
+		<Unit filename="elements.h" />
+		<Unit filename="hieararchymanager.h" />
+		<Unit filename="hieararchymanager2.h" />
+		<Unit filename="layout.xml" />
+		<Unit filename="main.cpp" />
+		<Unit filename="memorypool.h" />
+		<Unit filename="memorypool2.h" />
+		<Unit filename="scrap.h" />
+		<Unit filename="windowmanager.h" />
+		<Unit filename="structure/datapoints.txt" />
 		<Extensions>
 			<code_completion />
 			<envvars />
