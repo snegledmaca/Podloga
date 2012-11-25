@@ -1,9 +1,11 @@
 # depslib dependency file v1.0
-1353151321 source:/home/bozidar/Projects/CodeblocksProjects/Podloga/main.cpp
+1353872896 source:/home/bozidar/Projects/CodeblocksProjects/Podloga/main.cpp
 	<FTGL/ftgl-2.1.3~rc5/src/FTGL/ftgl.h>
 	<SOIL/Simple OpenGL Image Library/src/SOIL.h>
 	"windowmanager.h"
 	"hieararchymanager.h"
+	"benchmark.h"
+	"dictionaryparts/hashtable.h"
 
 1212672919 /home/bozidar/Projects/CodeblocksProjects/FTGL/ftgl-2.1.3~rc5/src/FTGL/ftgl.h
 	<ft2build.h>
@@ -50,16 +52,91 @@
 
 1352674479 /home/bozidar/Projects/CodeblocksProjects/Podloga/container.h
 
-1353185059 /home/bozidar/Projects/CodeblocksProjects/Podloga/hieararchymanager.h
-	"elements.h"
+1353872906 /home/bozidar/Projects/CodeblocksProjects/Podloga/hieararchymanager.h
+	"filemanager.h"
 
-1353185389 /home/bozidar/Projects/CodeblocksProjects/Podloga/elements.h
-	"memorypool.h"
+1353781202 /home/bozidar/Projects/CodeblocksProjects/Podloga/elements.h
+	"memoryparts/frompool.h"
 	"container.h"
 
 1352491333 /home/bozidar/Projects/CodeblocksProjects/Trees/libtree.h
 	<stdint.h>
 	<stddef.h>
 
-1353164410 /home/bozidar/Projects/CodeblocksProjects/Podloga/memorypool.h
+1353767135 /home/bozidar/Projects/CodeblocksProjects/Podloga/memorypool.h
+	<new>
+	"memoryparts/memorypool.h"
+	"memoryparts/frompool.h"
+
+1353872344 /home/bozidar/Projects/CodeblocksProjects/Podloga/filemanager.h
+	<string.h>
+	<dirent.h>
+	"fileparts/reader.h"
+	"memoryparts/frompool.h"
+	"dictionaryparts/hasdictionary.h"
+
+1353536490 /home/bozidar/Projects/CodeblocksProjects/Podloga/benchmark.h
+	<sys/time.h>
+
+1353600696 /home/bozidar/Projects/CodeblocksProjects/Podloga/fileparts/readallin.h
+	<stdio.h>
+	"reader.h"
+
+1353782614 /home/bozidar/Projects/CodeblocksProjects/Podloga/fileparts/reader.h
+	"../memoryparts/frompool.h"
+
+1353782629 /home/bozidar/Projects/CodeblocksProjects/Podloga/fileparts/readsomein.h
+	<stdio.h>
+	"reader.h"
+
+1353533279 /home/bozidar/Projects/CodeblocksProjects/Podloga/fileparts/readmmaped.h
+	<sys/mman.h>
+	<sys/stat.h>
+	<fcntl.h>
+	<unistd.h>
+	"reader.h"
+
+1353686748 /home/bozidar/Projects/CodeblocksProjects/Podloga/dictionary.h
+	"memorypool.h"
+	"fileparts/readsomein.h"
+
+1353793990 /home/bozidar/Projects/CodeblocksProjects/Podloga/dictionaryparts/hashtable.h
+	<string.h>
+	"../memoryparts/frompool.h"
+	"dictionary.h"
+
+1353780623 /home/bozidar/Projects/CodeblocksProjects/Podloga/dictionaryparts/stdmap.h
+	<string.h>
+	<map>
+	"dictionary.h"
+
+1353856306 /home/bozidar/Projects/CodeblocksProjects/Podloga/dictionaryparts/prefixtree.h
+	"../memoryparts/frompool.h"
+	"../fileparts/readsomein.h"
+
+1353856411 /home/bozidar/Projects/CodeblocksProjects/Podloga/memoryparts/memorypool.h
+	<new>
+
+1353856427 /home/bozidar/Projects/CodeblocksProjects/Podloga/memoryparts/frompool.h
+	"memorypool.h"
+
+1353767049 /home/bozidar/Projects/CodeblocksProjects/Podloga/memoryparts/simplepool.h
+	"memorypool.h"
+	<new>
+
+1353856174 /home/bozidar/Projects/CodeblocksProjects/Podloga/dictionaryparts/dictionary.h
+	"../memoryparts/frompool.h"
+	"../fileparts/hasreader.h"
+
+1353782594 /home/bozidar/Projects/CodeblocksProjects/Podloga/fileparts/hasreader.h
+	"readsomein.h"
+
+1353863974 /home/bozidar/Projects/CodeblocksProjects/Podloga/dictionaryparts/hasdictionary.h
+	"hashtable.h"
+
+1353856034 /home/bozidar/Projects/CodeblocksProjects/Podloga/dictionaryparts/skiplist.h
+	<stdlib.h>
+	<time.h>
+	"../memoryparts/frompool.h"
+	"dictionary.h"
 

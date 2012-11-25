@@ -3,9 +3,14 @@
 
 #include "windowmanager.h"
 #include "hieararchymanager.h"
+#include "benchmark.h"
+#include "dictionaryparts/hashtable.h"
+//#include "dictionaryparts/skiplist.h"
+//#include "dictionaryparts/stdmap.h"
+//#include "dictionaryparts/prefixtree.h"
 
     WindowManager winManager( "Formule - BRUM, BRUM, BRUM" );
-    HierarchyManager* hierManager = new HierarchyManager( "structure/" );
+    HierarchyManager* hierManager = new HierarchyManager( "" );
 
     GLuint SOIL_loadTexture( const char* texturePath ) {
         GLuint tex_id = SOIL_load_OGL_texture
@@ -92,6 +97,49 @@
         font->Render("Provjera");
     }
 
+    void dictionary_test( void ) {
+        size_t iterations = 1;
+
+        const char* filename = "structure/primjeri.txt";
+
+        ReadSomeIn* some = new ReadSomeIn( (char*) filename);
+        double some_time = benchmark(*some, iterations, (char*) filename);
+
+        HashTable* hash = new HashTable();
+        double hash_time = benchmark(*hash, iterations, (char*) filename);
+
+//        STDMap* standard = new STDMap();
+//        double standard_time = benchmark(*standard, iterations, (char*) filename);
+
+//        PrefixTree* prefix = new PrefixTree();
+//        double prefix_time = benchmark(*prefix, iterations, (char*) filename);
+
+//        SkipList* skip = new SkipList();
+//        double skip_time = benchmark(*skip, iterations, (char*) filename);
+
+        printf("\t\tsome in:\t %d s + %d ms + %d μs \n",
+               (int) ((some_time / 1e9 - (int) (some_time / 1e9) ) * 1e3),
+               (int) ((some_time / 1e6 - (int) (some_time / 1e6) ) * 1e3),
+               (int) ((some_time / 1e3 - (int) (some_time / 1e3) ) * 1e3));
+        printf("\t\thash in:\t %d s + %d ms + %d μs \n",
+               (int) ((hash_time / 1e9 - (int) (hash_time / 1e9) ) * 1e3),
+               (int) ((hash_time / 1e6 - (int) (hash_time / 1e6) ) * 1e3),
+               (int) ((hash_time / 1e3 - (int) (hash_time / 1e3) ) * 1e3));
+//        printf("\t\tprefix in:\t %d s + %d ms + %d μs \n",
+//               (int) ((prefix_time / 1e9 - (int) (prefix_time / 1e9) ) * 1e3),
+//               (int) ((prefix_time / 1e6 - (int) (prefix_time / 1e6) ) * 1e3),
+//               (int) ((prefix_time / 1e3 - (int) (prefix_time / 1e3) ) * 1e3));
+//        printf("\t\tstandard in:\t %d s + %d ms + %d μs \n",
+//               (int) ((standard_time / 1e9 - (int) (standard_time / 1e9) ) * 1e3),
+//               (int) ((standard_time / 1e6 - (int) (standard_time / 1e6) ) * 1e3),
+//               (int) ((standard_time / 1e3 - (int) (standard_time / 1e3) ) * 1e3));
+//        printf("\t\tskip in:\t %d s + %d ms + %d μs \n",
+//               (int) ((skip_time / 1e9 - (int) (skip_time / 1e9) ) * 1e3),
+//               (int) ((skip_time / 1e6 - (int) (skip_time / 1e6) ) * 1e3),
+//               (int) ((skip_time / 1e3 - (int) (skip_time / 1e3) ) * 1e3));
+        printf( "\n" );
+    }
+
 
 int main()
 {
@@ -103,8 +151,10 @@ int main()
 
     glEnable( GL_TEXTURE_2D );
 
-    winManager.add_draw_function( draw );
-    winManager.constant_loop();
+//    winManager.add_draw_function( draw );
+//    winManager.constant_loop();
+
+    dictionary_test();
 
     delete font;
 
